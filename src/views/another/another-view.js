@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-class NewComponent extends LitElement {
+class AnotherView extends LitElement {
     static get properties() {
         return {
             componentName: { type: String }
@@ -14,12 +14,6 @@ class NewComponent extends LitElement {
         }`;
     }
 
-    render() {
-        return html`
-        <p>${this.componentName} works!</p>
-    `;
-    }
-
     constructor() {
         super();
     }
@@ -27,5 +21,11 @@ class NewComponent extends LitElement {
     firstUpdated() {
         this.componentName = this.tagName;
     }
+
+    render() {
+        return html`
+        <p>${this.componentName} works!</p>
+    `;
+    }
 }
-customElements.define('new-component', NewComponent);
+customElements.define('another-view', AnotherView);

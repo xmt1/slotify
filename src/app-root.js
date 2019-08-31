@@ -1,11 +1,10 @@
 import { LitElement, html, css } from 'lit-element';
-
-import './views/register/register-view.js';
+import { installRouter } from 'pwa-helpers/router.js';
 
 class AppRoot extends LitElement {
     static get properties() {
         return {
-            componentName: { type: String }
+            _page: { type: String }
         };
     }
 
@@ -13,7 +12,31 @@ class AppRoot extends LitElement {
         return css`
         :host {
             display: block;
-        }`;
+        }
+
+        main {
+            display: block;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page[active] {
+            display: block;
+        }
+    `;
+    }
+
+
+    render() {
+        return html`
+        <main>
+            <register-view class="page" ?active="${this._page === 'register'}"></register-view>
+            <another-view class="page" ?active="${this._page === 'another'}"></another-view>
+            <app-404 class="page" ?active="${this._page === '404'}"></app-404>
+        </main>
+    `;
     }
 
     constructor() {
@@ -21,15 +44,36 @@ class AppRoot extends LitElement {
     }
 
     firstUpdated() {
-        this.componentName = this.tagName;
+        installRouter((location) => this._locationChanged(location));
     }
 
-    render() {
-        return html`
-        <main>
-            <register-view></register-view>
-        </main>
-    `;
+    _locationChanged(location) {
+        const path = window.decodeURIComponent(location.pathname);
+        const page = path === '/' ? 'register' : path.slice(1);
+        this._loadPage(page);
     }
+
+    _loadPage(page) {
+        switch (page) {
+            case 'register':
+                import('./views/register/register-view.js').then((module) => {
+                    // Put code in here that you want to run every time you navigate
+                    // to this view
+                });
+                break;
+            case 'another':
+                import('./views/another/another-view.js').then((module) => {
+                    // Put code in here that you want to run every time you navigate
+                    // to this view
+                });
+                break;
+            default:
+                page = '404';
+                import('./views/404/app-404.js');
+        }
+
+        this._page = page;
+    }
+
 }
 customElements.define('app-root', AppRoot);
