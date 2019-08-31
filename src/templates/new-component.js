@@ -24,7 +24,6 @@ class NewComponent extends LitElement {
 
     render() {
         return html`
-        <p>A paragraph</p>
         <p>${this.componentName} works!</p>
     `;
     }

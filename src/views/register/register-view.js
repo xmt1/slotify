@@ -1,8 +1,6 @@
 import { LitElement, html, css } from 'lit-element';
 
-import './views/register/register-view.js';
-
-class AppRoot extends LitElement {
+class RegisterView extends LitElement {
     static get properties() {
         return {
             componentName: { type: String }
@@ -26,10 +24,8 @@ class AppRoot extends LitElement {
 
     render() {
         return html`
-        <main>
-            <register-view></register-view>
-        </main>
+        <p>${this.componentName} works!</p>
     `;
     }
 }
-customElements.define('app-root', AppRoot);
+customElements.define('register-view', RegisterView);
