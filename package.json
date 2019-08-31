@@ -1,0 +1,18 @@
+{
+  "name": "slotify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "polymer serve",
+    "build": "polymer build --auto-base-path"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.10",
+    "lit-element": "^2.2.1",
+    "pwa-helpers": "^0.9.1"
+  }
+}

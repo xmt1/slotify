@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slotify</title>
+    <script 
+        src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"
+        defer>
+    </script>
+    <script type="module">
+        // Take care of cases in which the browser runs this
+        // script before it has finished running 
+        // webcomponents-loader.js (e.g. Firefox script execution order)
+        window.WebComponents = window.WebComponents || { 
+          waitFor(cb){ addEventListener('WebComponentsReady', cb) }
+        }
+    
+        WebComponents.waitFor(async () => { 
+          import('./src/app-root.js');
+        });
+    </script> 
+</head>
+<body>
+    <app-root></app-root>
+</body>
+</html>
