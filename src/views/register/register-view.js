@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit-element';
 class RegisterView extends LitElement {
     static get properties() {
         return {
-            
+
         };
     }
 
@@ -25,7 +25,11 @@ class RegisterView extends LitElement {
     render() {
         return html`
         <div id="inputContainer">
-            <form action="" id="loginForm" method="POST">
+            <form 
+                action="#" 
+                id="loginForm" 
+                method="POST" 
+                @submit="${this.onFormSubmit}">
                 <h2>Login to your account</h2>
                 <div>
                     <label for="loginUsername">Username</label>
@@ -46,8 +50,8 @@ class RegisterView extends LitElement {
                 </div>
                 <button type="submit" name="loginButton">LOG IN</button>
             </form>
-
-            <form action="" id="registerForm" method="POST">
+                
+            <!-- <form action="" id="registerForm" method="POST">
                 <h2>Create your free account</h2>
                 <div>
                     <label for="username">Username</label>
@@ -111,10 +115,37 @@ class RegisterView extends LitElement {
                         name="password2">
                 </div>
                 <button type="submit" name="registerButton">Sign Up</button>
-            </form>
+            </form> -->
 
         </div>
     `;
+    }
+
+    onFormSubmit(e) {
+        e.preventDefault();
+        const loginUsername = this.shadowRoot.querySelector('#loginUsername');
+        const loginPassword = this.shadowRoot.querySelector('#loginPassword');
+        const user = {
+            username: loginUsername.value,
+            password: loginPassword.value
+        }
+        this.postData('http://localhost/slotify/register.php', user);
+    }
+
+    postData(url = '', data = {}) {
+        fetch(url, {
+            method: "post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+
+            //make sure to serialize your JSON body
+            body: JSON.stringify(data)
+        })
+        .then((response) => {
+            console.log(response);
+        });
     }
 }
 customElements.define('register-view', RegisterView);
