@@ -33,7 +33,7 @@ class AppRoot extends LitElement {
         return html`
         <main>
             <register-view class="page" ?active="${this._page === 'register'}"></register-view>
-            <another-view class="page" ?active="${this._page === 'another'}"></another-view>
+            <login-view class="page" ?active="${this._page === 'login'}"></login-view>
             <app-404 class="page" ?active="${this._page === '404'}"></app-404>
         </main>
     `;
@@ -61,8 +61,8 @@ class AppRoot extends LitElement {
                     // to this view
                 });
                 break;
-            case 'another':
-                import('./views/another/another-view.js').then((module) => {
+            case 'login':
+                import('./views/register/login-view.js').then((module) => {
                     // Put code in here that you want to run every time you navigate
                     // to this view
                 });
@@ -70,6 +70,8 @@ class AppRoot extends LitElement {
             default:
                 page = '404';
                 import('./views/404/app-404.js');
+                // Redirect after two seconds
+                setTimeout(() => { location.href = '/' }, 3000)
         }
 
         this._page = page;

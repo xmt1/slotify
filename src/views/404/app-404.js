@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit-element';
 class App404 extends LitElement {
     static get properties() {
         return {
-            componentName: { type: String }
+            
         };
     }
 
@@ -19,12 +19,13 @@ class App404 extends LitElement {
     }
 
     firstUpdated() {
-        this.componentName = this.tagName;
+
     }
 
     render() {
         return html`
-        <p>${this.componentName} works!</p>
+        <p>404 - Page does not exist</p>
+        <p>This page will redirect in a few seconds or <a href="/">redirect now</a></p>
     `;
     }
 }

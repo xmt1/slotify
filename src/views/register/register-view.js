@@ -19,38 +19,12 @@ class RegisterView extends LitElement {
     }
 
     firstUpdated() {
-        this.componentName = this.tagName;
+        
     }
 
     render() {
         return html`
         <div id="inputContainer">
-            <form 
-                action="#" 
-                id="loginForm" 
-                method="POST" 
-                @submit="${this.onLogin}">
-                <h2>Login to your account</h2>
-                <div>
-                    <label for="loginUsername">Username</label>
-                    <input
-                        required 
-                        type="text"
-                        placeholder="e.g. bart simpson" 
-                        id="loginUsername" 
-                        name="loginUsername">
-                </div>
-                <div>
-                    <label for="loginPassword">Password</label>
-                    <input
-                        required 
-                        type="password"
-                        id="loginPassword" 
-                        name="loginPassword">
-                </div>
-                <button type="submit" name="loginButton">LOG IN</button>
-            </form>
-                
             <form 
                 action="#" 
                 id="registerForm" 
@@ -123,17 +97,6 @@ class RegisterView extends LitElement {
 
         </div>
     `;
-    }
-
-    onLogin(e) {
-        e.preventDefault();
-        const loginUsername = this.shadowRoot.querySelector('#loginUsername');
-        const loginPassword = this.shadowRoot.querySelector('#loginPassword');
-        const user = {
-            username: loginUsername.value,
-            password: loginPassword.value
-        }
-        this.postData('http://localhost/slotify/register.php', user);
     }
 
     onRegister(e) {
