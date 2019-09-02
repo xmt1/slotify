@@ -29,7 +29,7 @@ class RegisterView extends LitElement {
                 action="#" 
                 id="loginForm" 
                 method="POST" 
-                @submit="${this.onFormSubmit}">
+                @submit="${this.onLogin}">
                 <h2>Login to your account</h2>
                 <div>
                     <label for="loginUsername">Username</label>
@@ -51,7 +51,11 @@ class RegisterView extends LitElement {
                 <button type="submit" name="loginButton">LOG IN</button>
             </form>
                 
-            <!-- <form action="" id="registerForm" method="POST">
+            <form 
+                action="#" 
+                id="registerForm" 
+                method="POST"
+                @submit="${this.onRegister}">
                 <h2>Create your free account</h2>
                 <div>
                     <label for="username">Username</label>
@@ -115,13 +119,13 @@ class RegisterView extends LitElement {
                         name="password2">
                 </div>
                 <button type="submit" name="registerButton">Sign Up</button>
-            </form> -->
+            </form>
 
         </div>
     `;
     }
 
-    onFormSubmit(e) {
+    onLogin(e) {
         e.preventDefault();
         const loginUsername = this.shadowRoot.querySelector('#loginUsername');
         const loginPassword = this.shadowRoot.querySelector('#loginPassword');
@@ -130,6 +134,32 @@ class RegisterView extends LitElement {
             password: loginPassword.value
         }
         this.postData('http://localhost/slotify/register.php', user);
+    }
+
+    onRegister(e) {
+        e.preventDefault();
+        const username = this.shadowRoot.querySelector('#username');
+        const firstName = this.shadowRoot.querySelector('#firstName');
+        const lastName = this.shadowRoot.querySelector('#lastName');
+        const email = this.shadowRoot.querySelector('#email');
+        const email2 = this.shadowRoot.querySelector('#email2');
+        const password = this.shadowRoot.querySelector('#password');
+        const password2 = this.shadowRoot.querySelector('#password2');
+
+        const user = {
+            username: username.value,
+            firstName: firstName.value,
+            lastName: lastName.value,
+            email: email.value,
+            email2: email2.value,
+            password: password.value,
+            password2: password2.value
+        }
+
+        console.log(user);
+
+        this.postData('http://localhost/slotify/register.php', user);
+
     }
 
     postData(url = '', data = {}) {
@@ -145,7 +175,8 @@ class RegisterView extends LitElement {
         })
         .then((response) => {
             console.log(response);
-        });
+        })
+        .catch(err => console.log(err))
     }
 }
 customElements.define('register-view', RegisterView);
