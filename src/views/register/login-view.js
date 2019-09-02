@@ -62,7 +62,7 @@ class LoginView extends LitElement {
             username: loginUsername.value,
             password: loginPassword.value
         }
-        this.postData('http://localhost/slotify/register.php', user);
+        this.postData('http://localhost/slotify/login.php', user);
     }
 
     postData(url = '', data = {}) {
