@@ -32,10 +32,23 @@ class AppRoot extends LitElement {
     render() {
         return html`
         <main>
-            <register-view class="page" ?active="${this._page === 'register'}"></register-view>
-            <login-view class="page" ?active="${this._page === 'login'}"></login-view>
-            <another-view class="page" ?active="${this._page === 'another'}"></another-view>
-            <app-404 class="page" ?active="${this._page === '404'}"></app-404>
+            <register-view 
+                @route-updated="${() => this._locationChanged(window.location)}" 
+                class="page" 
+                ?active="${this._page === 'register'}">
+            </register-view>
+            <login-view 
+                class="page" 
+                ?active="${this._page === 'login'}">
+            </login-view>
+            <another-view 
+                class="page" 
+                ?active="${this._page === 'another'}">
+            </another-view>
+            <app-404 
+                class="page" 
+                ?active="${this._page === '404'}">
+            </app-404>
         </main>
     `;
     }

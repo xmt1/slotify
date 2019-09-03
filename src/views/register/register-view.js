@@ -134,13 +134,25 @@ class RegisterView extends LitElement {
                     this.formErrors = data.errors;
                 } else {
                     console.log(data, 'validation passed');
-                    location.href = '/another'
-                    this.formErrors = undefined;
+                    this.updateRoute();
+                    this.resetForm();
                 }
                 
             })
             .catch(err => console.log(err));
 
+    }
+
+    // Fire event to app-root for route handling
+    updateRoute() {
+        window.history.pushState({}, '', '/another');
+        let routeUpdated = new Event('route-updated');
+        this.dispatchEvent(routeUpdated);
+    }
+
+    resetForm() {
+        this.shadowRoot.querySelector('form').reset();
+        this.formErrors = undefined;
     }
 
     postData(url = '', data = {}) {

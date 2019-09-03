@@ -25,6 +25,7 @@ class AnotherView extends LitElement {
     render() {
         return html`
         <p>${this.componentName} works!</p>
+        <a href="/">Back to register</a>
     `;
     }
 }
