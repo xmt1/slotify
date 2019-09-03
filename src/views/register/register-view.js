@@ -125,6 +125,7 @@ class RegisterView extends LitElement {
                     console.log(data, 'validation failed');
                 } else {
                     console.log(data, 'validation passed');
+                    location.href = '/another'
                 }
                 
             })
