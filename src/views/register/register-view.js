@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit-element';
 class RegisterView extends LitElement {
     static get properties() {
         return {
-
+            formErrors: { type: Array } // populated from the backend response
         };
     }
 
@@ -32,6 +32,7 @@ class RegisterView extends LitElement {
                 @submit="${this.onRegister}">
                 <h2>Create your free account</h2>
                 <div>
+                    ${this.formErrors ? this.getError("usernameCharacters") : ''}
                     <label for="username">Username</label>
                     <input
                         required 
@@ -41,6 +42,7 @@ class RegisterView extends LitElement {
                         name="username">
                 </div>
                 <div>
+                    ${this.formErrors ? this.getError("firstNameCharacters") : ''}
                     <label for="firstName">First Name</label>
                     <input
                         required 
@@ -50,6 +52,7 @@ class RegisterView extends LitElement {
                         name="firstName">
                 </div>
                 <div>
+                    ${this.formErrors ? this.getError("lastNameCharacters") : ''}
                     <label for="lastName">Last Name</label>
                     <input
                         required 
@@ -59,6 +62,8 @@ class RegisterView extends LitElement {
                         name="lastName">
                 </div>
                 <div>
+                    ${this.formErrors ? this.getError("emailsDoNotMatch") : ''}
+                    ${this.formErrors ? this.getError("emailInvalid") : ''}
                     <label for="email">Email</label>
                     <input
                         required 
@@ -77,6 +82,9 @@ class RegisterView extends LitElement {
                         name="email2">
                 </div>
                 <div>
+                    ${this.formErrors ? this.getError("passwordsDoNotMatch") : ''}
+                    ${this.formErrors ? this.getError("passwordNotAlphanumeric") : ''}
+                    ${this.formErrors ? this.getError("passwordCharacters") : ''}
                     <label for="password">Password</label>
                     <input
                         required 
@@ -123,9 +131,11 @@ class RegisterView extends LitElement {
             .then(data => {
                 if (!data.success) {
                     console.log(data, 'validation failed');
+                    this.formErrors = data.errors;
                 } else {
                     console.log(data, 'validation passed');
                     location.href = '/another'
+                    this.formErrors = undefined;
                 }
                 
             })
@@ -148,6 +158,11 @@ class RegisterView extends LitElement {
             return response.json();
         })
         .catch(err => console.log(err))
+    }
+
+    // Get errors by property generated from the backend
+    getError(err) {
+        return !this.formErrors[err] ? '' : html`<span>${this.formErrors[err]}</span>`;
     }
 }
 customElements.define('register-view', RegisterView);
