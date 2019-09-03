@@ -119,14 +119,21 @@ class RegisterView extends LitElement {
             password2: password2.value
         }
 
-        console.log(user);
-
-        this.postData('http://localhost/slotify/register.php', user);
+        this.postData('http://localhost/slotify/register.php', user)
+            .then(data => {
+                if (!data.success) {
+                    console.log(data, 'validation failed');
+                } else {
+                    console.log(data, 'validation passed');
+                }
+                
+            })
+            .catch(err => console.log(err));
 
     }
 
     postData(url = '', data = {}) {
-        fetch(url, {
+        return fetch(url, {
             method: "post",
             headers: {
                 'Accept': 'application/json',
@@ -137,7 +144,7 @@ class RegisterView extends LitElement {
             body: JSON.stringify(data)
         })
         .then((response) => {
-            console.log(response);
+            return response.json();
         })
         .catch(err => console.log(err))
     }
