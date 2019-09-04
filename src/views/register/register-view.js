@@ -33,6 +33,7 @@ class RegisterView extends LitElement {
                 <h2>Create your free account</h2>
                 <div>
                     ${this.formErrors ? this.getError("usernameCharacters") : ''}
+                    ${this.formErrors ? this.getError("usernameTaken") : ''}
                     <label for="username">Username</label>
                     <input
                         required 
@@ -64,6 +65,7 @@ class RegisterView extends LitElement {
                 <div>
                     ${this.formErrors ? this.getError("emailsDoNotMatch") : ''}
                     ${this.formErrors ? this.getError("emailInvalid") : ''}
+                    ${this.formErrors ? this.getError("emailTaken") : ''}
                     <label for="email">Email</label>
                     <input
                         required 
