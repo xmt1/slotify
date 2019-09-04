@@ -37,7 +37,8 @@ class AppRoot extends LitElement {
                 class="page" 
                 ?active="${this._page === 'register'}">
             </register-view>
-            <login-view 
+            <login-view
+                @route-updated="${() => this._locationChanged(window.location)}"  
                 class="page" 
                 ?active="${this._page === 'login'}">
             </login-view>

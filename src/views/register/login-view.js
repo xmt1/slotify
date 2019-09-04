@@ -3,7 +3,7 @@ import { LitElement, html, css } from 'lit-element';
 class LoginView extends LitElement {
     static get properties() {
         return {
-
+            formErrors: { type: Array } // populated from the backend response
         };
     }
 
@@ -17,11 +17,7 @@ class LoginView extends LitElement {
     constructor() {
         super();
     }
-
-    firstUpdated() {
-        
-    }
-
+    
     render() {
         return html`
         <div id="inputContainer">
@@ -31,6 +27,7 @@ class LoginView extends LitElement {
                 method="POST" 
                 @submit="${this.onLogin}">
                 <h2>Login to your account</h2>
+                ${this.formErrors ? this.getError("loginFailed") : ''}
                 <div>
                     <label for="loginUsername">Username</label>
                     <input
@@ -62,11 +59,23 @@ class LoginView extends LitElement {
             username: loginUsername.value,
             password: loginPassword.value
         }
-        this.postData('http://localhost/slotify/login.php', user);
+        this.postData('http://localhost/slotify/login.php', user)
+            .then(data => {
+                if (!data.success) {
+                    console.log(data, 'validation failed');
+                    this.formErrors = data.errors;
+                } else {
+                    console.log(data, 'validation passed');
+                    this.updateRoute();
+                    this.resetForm();
+                }
+                
+            })
+            .catch(err => console.log(err));
     }
 
     postData(url = '', data = {}) {
-        fetch(url, {
+        return fetch(url, {
             method: "post",
             headers: {
                 'Accept': 'application/json',
@@ -77,9 +86,26 @@ class LoginView extends LitElement {
             body: JSON.stringify(data)
         })
         .then((response) => {
-            console.log(response);
+            return response.json();
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
+    }
+
+    // Fire event to app-root for route handling
+    updateRoute() {
+        window.history.pushState({}, '', '/another');
+        let routeUpdated = new Event('route-updated');
+        this.dispatchEvent(routeUpdated);
+    }
+
+    resetForm() {
+        this.shadowRoot.querySelector('form').reset();
+        this.formErrors = undefined;
+    }
+
+    // Get errors by property generated from the backend
+    getError(err) {
+        return !this.formErrors[err] ? '' : html`<span>${this.formErrors[err]}</span>`;
     }
 }
 customElements.define('login-view', LoginView);

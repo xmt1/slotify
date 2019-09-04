@@ -18,10 +18,6 @@ class RegisterView extends LitElement {
         super();
     }
 
-    firstUpdated() {
-        
-    }
-
     render() {
         return html`
         <div id="inputContainer">
